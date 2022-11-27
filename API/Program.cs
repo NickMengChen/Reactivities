@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration.Json;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 //.net 6 add the service for dbcontext
 ConfigurationManager configuration = builder.Configuration; // allows both to access and to set up the config
+
 IWebHostEnvironment environment = builder.Environment;
 builder.Services.AddDbContext<DataContext>(opt => {opt.UseSqlite(configuration.GetConnectionString("DefaultConnection")); });
 
