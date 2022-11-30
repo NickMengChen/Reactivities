@@ -17,7 +17,25 @@ builder.Services.AddSwaggerGen();
 ConfigurationManager configuration = builder.Configuration; // allows both to access and to set up the config
 
 IWebHostEnvironment environment = builder.Environment;
-builder.Services.AddDbContext<DataContext>(opt => {opt.UseSqlite(configuration.GetConnectionString("DefaultConnection")); });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyAllowedOrigins",
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // note the port is included 
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+
+builder.Services.AddDbContext<DataContext>(opt => 
+{
+    opt.UseSqlite(configuration.GetConnectionString("DefaultConnection")); 
+});
+
+
 
 var app = builder.Build();
 
@@ -46,6 +64,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("MyAllowedOrigins");
 
 app.UseAuthorization();
 
