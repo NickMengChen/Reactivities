@@ -14,5 +14,6 @@ namespace Domain
         public String Category { get; set; }
         public String City { get; set; }
         public String Venue { get; set; }
+
     }
 }

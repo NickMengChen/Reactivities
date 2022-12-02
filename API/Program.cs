@@ -1,3 +1,6 @@
+using Application.Activities;
+using Application.Core;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration.Json;
@@ -27,8 +30,11 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+   
 });
 
+builder.Services.AddMediatR(typeof(List.Handler).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 builder.Services.AddDbContext<DataContext>(opt => 
 {
